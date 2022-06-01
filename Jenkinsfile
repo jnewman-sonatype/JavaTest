@@ -26,7 +26,17 @@
 
 pipeline {
     agent any
-
+    parameters
+    {
+        string(name: 'groupId', defaultValue: '', description: 'groupId taken from the project pom.xml')
+        string(name: 'artifactId', defaultValue: '', description: 'artifactId taken from the project pom.xml')
+        string(name: 'version', defaultValue: '', description: 'version taken from the project pom.xml')
+        string(name: 'packaging', defaultValue: '', description: 'The file format extension of the final artefact e.g. ear | war | jar')
+        string(name: 'iqAppID', defaultValue: '', description: 'IQ Server Application ID to evaluate against')
+        string(name: 'iqStage', defaultValue: 'build', description: 'IQ Server stage to evaluate against, Options are: build | stage-release | release')
+        // string(name: 'nexusInstanceId', defaultValue: 'nexus', description: 'Nexus Repository Manager InstanceId as defined in Settings, Configure System')
+        string(name: 'DEPLOY_REPO', defaultValue: 'maven-releases', description: 'Deployment repository for your built artifact. Usually maven-releases')
+    }
     environment {
        ARTEFACT_NAME = "${WORKSPACE}/target/${artifactId}-${version}.${packaging}"
        //DEPLOY_REPO = 'maven-releases'
@@ -38,6 +48,23 @@ pipeline {
        maven 'M3'
     }
     stages {
+/*
+        stage('POM Evaluation')
+        {
+            steps
+            {
+                script
+                {
+                    String pomGroupId = sh script: 'mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout', returnStdout: true
+                    String pomArtifactId = sh script: 'mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout', returnStdout: true
+                    String pomVersion = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+                    String pomPackaging = sh script: 'mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout', returnStdout: true
+                    echo "POM Defined GAV: ${pomGroupId} ${pomArtifactId} ${pomVersion}"
+                    echo "POM Defined packaging: ${pomPackaging}"
+                }
+            }
+        }
+*/
         stage('Build') {
             steps {
                 sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
