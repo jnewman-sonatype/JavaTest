@@ -1,3 +1,15 @@
+# Backup files
+*.bak
+
+# IDE metadata
+.vs/*
+.vscode/*
+.idea/*
+
+# ----------------------------------------------
+# Maven
+# ----------------------------------------------
+
 target/
 pom.xml.tag
 pom.xml.releaseBackup
