@@ -27,5 +27,6 @@ steps:
     stage: 'Build'
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(Pipeline.Workspace)/Job/s/target'
+    artifact: '*.jar'
     publishLocation: 'pipeline'
