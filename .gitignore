@@ -6,6 +6,11 @@
 .vscode/*
 .idea/*
 
+# Eclipse IDE Metadata
+.settings/*
+.project
+.classpath
+
 # ----------------------------------------------
 # Maven
 # ----------------------------------------------
